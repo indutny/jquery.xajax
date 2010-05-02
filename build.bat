@@ -1,0 +1,1 @@
+java -jar closure.jar --compilation_level SIMPLE_OPTIMIZATIONS --js jquery.xajax.js --js_output_file jquery.xajax.min.js

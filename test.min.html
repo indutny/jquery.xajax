@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<style type="text/css">
+		div {
+			padding: 3px;
+			margin: 3px;
+			float: left;
+			border: 3px solid black;
+			background: #333;
+			color: white;
+			-webkit-box-shadow: 3px 3px 5px #555;
+		}
+		div.done {
+			background: #1c5;
+		}
+	</style>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="jquery.xajax.min.js"></script>
+	
+	<script type="text/javascript">
+		//************************************ Settings
+	
+		
+		//************************************ Settings - end
+		try {console.log();}
+		catch (e) {
+		window.console = {
+			log: function (str) {
+			},
+			error: function () {
+				alert(Array.prototype.join.apply(arguments,[""]));
+			},
+			info: function (str) {
+			}
+		};
+		}
+		
+		var start, benchmarks=[], global=0;
+		function _start() {
+			start = +new Date;
+		}
+		function _end() {
+			return (+new Date - start);
+		}
+		
+		function run(i , result) {
+			i = i || 0;
+			
+			if (benchmarks[ i ])
+				result = benchmarks[ i ]();
+			else
+				return done();
+			
+			$('body').append($('<div class="' + (result ? "done": "not") + '">Test # ' + i + '</div>').attr({title:benchmarks[ i ].toString()}).hide().fadeIn(100,function() {
+				run(i+1);
+			}));
+			
+			//setTimeout(function() { run(i+1);},0);
+		}
+		
+		function done() {
+			$('body').append($('<div class="done">All tests done : ' + global +'</div>').hide().fadeIn(250));
+		}
+		
+		/*
+		benchmarks.push(function () {
+			try {
+			console.info("Only string");
+			
+			_start();
+			
+			var got = $.template("Only string",{}).html(),
+				expected = "Only string";
+			
+			global+=_end();
+			
+			if (got === expected) {
+				console.log("ok");
+				return 1;
+			} else
+				console.error("error", "Got:",got,"Expected:",expected);
+			} catch (e) {
+				console.log(e);
+			}
+		});
+		*/
+		run(0);
+	</script>
+	<title>jQuery.xAjax test case</title>
+</head>
+<body>
+
+</body>
+</html>
